@@ -422,6 +422,10 @@ $('lead2').addEventListener('submit',async e=>{e.preventDefault();
   LEAD={...LEAD,whatsapp:w,email:m,consent:true,creado:LEAD.creado||new Date().toISOString(),fuentes:[...new Set([...(LEAD.fuentes||[]),'proveedores'])]};
   if(!LEAD.nombre){LEAD.nombre=nm;LEAD.restaurante=rs;}
   applyGates(); render(); saveLead('proveedores');});
+document.querySelectorAll('#seg button').forEach(b=>{b.setAttribute('aria-pressed',b.dataset.g===group);b.addEventListener('click',()=>{group=b.dataset.g;document.querySelectorAll('#seg button').forEach(x=>x.setAttribute('aria-pressed',x===b));render()})});
+let touched=false;
+$('f').addEventListener('input',()=>{if(!touched){touched=true;$('exampleNote').textContent='Usando tus números.'}render()});
+$('f').addEventListener('submit',e=>e.preventDefault());
 $('needForm').addEventListener('submit',e=>{e.preventDefault();const m=$('needMsg');m.hidden=false;
   LEAD.pedido={producto:$('nProd').value,cantidad:$('nQty').value,ciudad:$('nCity').value,fecha:new Date().toISOString()};saveLead('pedido');
   m.textContent=`Recibimos tu pedido de ${$('nQty').value||'—'} de ${$('nProd').value||'producto'} por semana en ${$('nCity').value||'tu ciudad'}. Cuando abramos el directorio de proveedores en tu ciudad, te escribiremos a tu WhatsApp ${LEAD.whatsapp} con las primeras cotizaciones.`});
