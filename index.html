@@ -184,7 +184,6 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
       <div class="field"><label for="tipo">Tipo</label><select id="tipo"><option value="mesa">A la mesa</option><option value="rapida">Comida rápida</option></select></div>
     </div>
     <div class="field"><label for="ciudad">Ciudad</label><select id="ciudad"><option value="gye">Guayaquil</option><option value="uio">Quito</option><option value="cue">Cuenca</option><option value="sam">Samborondón</option><option value="otra">Otra ciudad</option></select></div>
-    <p class="privacy">Tus números se calculan en tu navegador y no se guardan, salvo que decidas aportarlos de forma anónima.</p>
   </form>
 
   <div class="results">
@@ -206,7 +205,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 
     <div class="gate" id="gate1" data-locked="true">
     <div class="lock"><form class="lockcard" id="lead1" novalidate>
-      <span class="price">Gratis a cambio de tus datos de contacto</span>
+      <span class="price">Gratis</span>
       <h3>Tu diagnóstico completo está listo</h3>
       <div class="teaser" id="teaser1">—</div>
       <p>Déjanos tus datos para ver rubro por rubro dónde estás frente a otros restaurantes y cuánto podrías ahorrar.</p>
@@ -254,7 +253,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
     <p>Los proveedores te contactan por estos medios. Solo los compartimos cuando tú pides una cotización.</p>
     <div class="row2"><div class="field"><label for="pWa">WhatsApp</label><input id="pWa" type="tel" inputmode="tel" placeholder="09XXXXXXXX" autocomplete="tel"></div>
     <div class="field"><label for="pMail">Correo</label><input id="pMail" type="email" inputmode="email" placeholder="tu@correo.com" autocomplete="email"></div></div>
-    <div class="field" id="pNameRow"><label for="pNombre">Tu nombre y restaurante</label><input id="pNombre" type="text" placeholder="Ana, Cevichería La Ola"></div>
+    <div class="row2" id="pNameRow"><div class="field"><label for="pNombre">Tu nombre</label><input id="pNombre" type="text" autocomplete="name"></div><div class="field"><label for="pRest">Restaurante</label><input id="pRest" type="text"></div></div>
     <label class="check"><input type="checkbox" id="pOk"> Acepto que Ecuanomía use estos datos y los comparta con los proveedores a los que yo pida cotización.</label>
     <div class="err" id="pErr" role="alert"></div>
     <button class="cta" type="submit">Ver proveedores</button>
@@ -293,8 +292,6 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
   <h2 class="title" style="font-size:24px">Cómo se calcula</h2>
   <div class="method">
     <p><b>Utilidad y ventas por empleado:</b> Superintendencia de Compañías, estados financieros 2025. 821 restaurantes (CIIU I5610) con ventas mayores a $100 mil. La utilidad es la que declaran las empresas, antes de participación de trabajadores e impuestos. Los márgenes declarados tienden a acumularse cerca de cero, así que la utilidad real puede ser mayor.</p>
-    <p><b>Comida, personal, arriendo y servicios:</b> INEC, Encuesta Estructural Empresarial 2024. 40 restaurantes medianos y grandes. El arriendo se compara solo contra restaurantes que pagan arriendo (29).</p>
-    <p><b>Limitaciones:</b> solo incluye sociedades. Los restaurantes de personas naturales no reportan a Supercias. Los grupos con menos de 70 restaurantes se muestran con su tamaño de muestra.</p>
   </div>
 </div></section>
 </main>
@@ -415,15 +412,15 @@ $('lead1').addEventListener('submit',async e=>{e.preventDefault();
   LEAD={...LEAD,nombre:n,restaurante:r,whatsapp:w||LEAD.whatsapp||'',email:m||LEAD.email||'',share:$('lShare').checked,consent:true,creado:LEAD.creado||new Date().toISOString(),fuentes:[...new Set([...(LEAD.fuentes||[]),'diagnostico'])]};
   applyGates(); render(); saveLead('diagnostico');});
 $('lead2').addEventListener('submit',async e=>{e.preventDefault();
-  const w=$('pWa').value.trim(),m=$('pMail').value.trim(),nm=$('pNombre').value.trim();
+  const w=$('pWa').value.trim(),m=$('pMail').value.trim(),nm=$('pNombre').value.trim(),rs=$('pRest').value.trim();
   let err='';
   if(!okWa(w))err='Escribe un WhatsApp válido (entre 9 y 13 dígitos).';
   else if(!okMail(m))err='Escribe un correo válido.';
-  else if(!LEAD.nombre&&!nm)err='Escribe tu nombre y el de tu restaurante.';
+  else if(!LEAD.nombre&&(!nm||!rs))err='Escribe tu nombre y el de tu restaurante.';
   else if(!$('pOk').checked)err='Para continuar, acepta el uso de tus datos.';
   $('pErr').textContent=err; if(err)return;
   LEAD={...LEAD,whatsapp:w,email:m,consent:true,creado:LEAD.creado||new Date().toISOString(),fuentes:[...new Set([...(LEAD.fuentes||[]),'proveedores'])]};
-  if(!LEAD.nombre){const [a,...b]=nm.split(',');LEAD.nombre=a.trim();LEAD.restaurante=b.join(',').trim();}
+  if(!LEAD.nombre){LEAD.nombre=nm;LEAD.restaurante=rs;}
   applyGates(); render(); saveLead('proveedores');});
 $('needForm').addEventListener('submit',e=>{e.preventDefault();const m=$('needMsg');m.hidden=false;
   LEAD.pedido={producto:$('nProd').value,cantidad:$('nQty').value,ciudad:$('nCity').value,fecha:new Date().toISOString()};saveLead('pedido');
