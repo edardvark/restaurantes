@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Restaurantes Ecuanomía</title>
+<meta name="description" content="Compara los costos de tu restaurante con 821 restaurantes formales de Ecuador. Benchmark gratuito de Ecuanomía.">
+<meta property="og:title" content="¿Tu restaurante gasta más de lo que debería?">
+<meta property="og:description" content="Compara tus costos de comida, personal y arriendo con restaurantes de todo Ecuador.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+<style>
+/* Layout: herramienta de dos columnas (formulario fijo a la izquierda, diagnóstico a la derecha), luego franjas de industria, proveedores y método */
+:root{
+  --bg:#EEF1FA; --surface:#FFFFFF; --surface2:#E3E7F4; --ink:#1F2433; --ink2:#4A5060; --muted:#7D8394; --line:#D3D8E6;
+  --ctx:#B4BACB; --blue:#2563A8; --red:#C8352C; --green:#0E8A72; --ochre:#A88600;
+  --band:#C9D3EC; --bandIQ:#9DAED6;
+  --sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+  --display:"Fraunces",Georgia,"Times New Roman",serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#141824; --surface:#1C2131; --surface2:#252B3D; --ink:#E9ECF5; --ink2:#B7BDCD; --muted:#8E95A8; --line:#30374B;
+  --ctx:#4A526A; --blue:#6CA3E3; --red:#EA6A60; --green:#3DBE9F; --ochre:#D7B63B; --band:#2C3550; --bandIQ:#405079; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#141824; --surface:#1C2131; --surface2:#252B3D; --ink:#E9ECF5; --ink2:#B7BDCD; --muted:#8E95A8; --line:#30374B;
+  --ctx:#4A526A; --blue:#6CA3E3; --red:#EA6A60; --green:#3DBE9F; --ochre:#D7B63B; --band:#2C3550; --bandIQ:#405079; color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0}
+[hidden]{display:none!important}
+img{max-width:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+header.top .wrap{display:flex;align-items:center;gap:16px;padding-block:12px;flex-wrap:wrap}
+.brand{font-weight:800;letter-spacing:-.01em;font-size:17px;color:var(--ink);text-decoration:none}
+.brand span{color:var(--muted);font-weight:600}
+nav{display:flex;gap:18px;margin-left:auto;flex-wrap:wrap}
+nav a{color:var(--ink2);text-decoration:none;font-weight:600;font-size:14px}
+nav a:hover,nav a:focus-visible{color:var(--blue)}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:4px 9px;border-radius:999px;background:var(--surface2);color:var(--ink2)}
+.hero{padding-block:36px 22px}
+.hero h1{font-family:var(--display);font-weight:700;font-size:clamp(30px,4.6vw,48px);line-height:1.08;letter-spacing:-.015em;margin:12px 0 12px;max-width:20ch;text-wrap:balance}
+.hero p{max-width:62ch;color:var(--ink2);font-size:17px;margin:0}
+.hero p b{color:var(--ink)}
+.tool{display:grid;grid-template-columns:340px minmax(0,1fr);gap:24px;align-items:start;padding-block:8px 40px}
+@media (max-width:900px){.tool{grid-template-columns:minmax(0,1fr)}}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px}
+form.inputs{position:sticky;top:calc(env(safe-area-inset-top,0px) + 70px);display:grid;gap:14px}
+@media (max-width:900px){form.inputs{position:static}}
+.inputs h2,.sec h2{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0;font-weight:700}
+.example{font-size:12.5px;color:var(--ochre);font-weight:600;margin-top:-6px}
+.field{display:grid;gap:4px}
+.field label{font-size:13px;font-weight:600;color:var(--ink2)}
+.money{position:relative}
+.money::before{content:"$";position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:600}
+input,select{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:7px;padding:9px 11px;width:100%;font-variant-numeric:tabular-nums}
+.money input{padding-left:24px}
+input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offset:1px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.hint{font-size:12px;color:var(--muted)}
+.privacy{font-size:12px;color:var(--muted);border-top:1px solid var(--line);padding-top:12px}
+.results{display:grid;gap:20px;min-width:0}
+.summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;padding:0;overflow:hidden}
+.summary>div{padding:18px 20px;border-right:1px solid var(--line)}
+.summary>div:last-child{border-right:0}
+@media (max-width:620px){.summary{grid-template-columns:minmax(0,1fr)}.summary>div{border-right:0;border-bottom:1px solid var(--line)}}
+.k{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.big{font-size:34px;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1.1;margin-top:4px}
+.sub{font-size:13px;color:var(--ink2);margin-top:4px}
+.chip{display:inline-block;font-size:12px;font-weight:700;padding:3px 9px;border-radius:999px;white-space:nowrap}
+.good{background:color-mix(in srgb,var(--green) 16%,transparent);color:var(--green)}
+.mid{background:color-mix(in srgb,var(--ochre) 18%,transparent);color:var(--ochre)}
+.bad{background:color-mix(in srgb,var(--red) 15%,transparent);color:var(--red)}
+.sec{display:grid;gap:14px}
+.sec-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.sec h3{font-size:20px;margin:2px 0 0;letter-spacing:-.01em}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg button{font:inherit;font-size:13px;font-weight:600;border:1px solid var(--line);background:var(--bg);color:var(--ink2);padding:6px 11px;border-radius:999px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+/* barras del dólar */
+.dollar{display:grid;gap:10px}
+.drow{display:grid;grid-template-columns:110px minmax(0,1fr);gap:12px;align-items:center}
+.drow .lab{font-size:13px;font-weight:700;color:var(--ink2)}
+.stack{display:flex;height:34px;border-radius:5px;overflow:hidden;background:var(--surface2)}
+.stack div{height:100%;display:flex;align-items:center;justify-content:center;font-size:11.5px;font-weight:700;color:#fff;min-width:0;overflow:hidden;white-space:nowrap;transition:flex-basis .35s ease}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12.5px;color:var(--ink2)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+/* filas percentil */
+.metric{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1.6fr) auto;gap:16px;align-items:center;padding-block:14px;border-top:1px solid var(--line)}
+.metric:first-of-type{border-top:0}
+@media (max-width:700px){.metric{grid-template-columns:minmax(0,1fr) auto}.metric .strip{grid-column:1/-1;order:3}}
+.metric .name{font-weight:700}
+.metric .val{font-size:13px;color:var(--ink2);font-variant-numeric:tabular-nums}
+.metric .val b{color:var(--ink)}
+.strip{position:relative;height:40px}
+.strip svg{width:100%;height:40px;display:block;overflow:visible}
+.metric .verdict{text-align:right;display:grid;gap:4px;justify-items:end}
+.metric .pct{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums;max-width:22ch;text-align:right}
+.src{font-size:11.5px;color:var(--muted)}
+/* oportunidad */
+.opp{border-left:4px solid var(--green)}
+.opp .big{color:var(--green)}
+.opp p{margin:6px 0 0;color:var(--ink2);max-width:60ch}
+/* proveedores */
+.prov-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (max-width:760px){.prov-grid{grid-template-columns:minmax(0,1fr)}}
+.prov{border:1px dashed var(--ctx);border-radius:8px;padding:14px;display:grid;gap:6px;background:var(--bg)}
+.prov .t{font-weight:700}
+.prov .m{font-size:12.5px;color:var(--ink2)}
+.stars{color:var(--ochre);font-size:13px;letter-spacing:1px}
+.need{display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:10px;align-items:end}
+@media (max-width:760px){.need{grid-template-columns:minmax(0,1fr)}}
+button.cta{font:inherit;font-weight:700;background:var(--blue);color:#fff;border:0;border-radius:7px;padding:10px 16px;cursor:pointer;white-space:nowrap}
+button.cta:hover{filter:brightness(1.08)}
+.notice{font-size:13px;background:var(--surface2);border-radius:7px;padding:10px 12px;color:var(--ink2)}
+/* industria */
+.band{border-top:1px solid var(--line);padding-block:40px}
+.band h2.title{font-family:var(--display);font-size:clamp(24px,3.2vw,34px);margin:6px 0 8px;letter-spacing:-.01em;text-wrap:balance;max-width:26ch}
+.band p.lead{color:var(--ink2);max-width:64ch;margin:0 0 22px}
+.ind{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+@media (max-width:900px){.ind{grid-template-columns:minmax(0,1fr)}}
+.bars{display:grid;gap:8px;margin-top:10px}
+.bar{display:grid;grid-template-columns:120px minmax(0,1fr) 46px;gap:10px;align-items:center;font-size:13px}
+.bar .tr{height:14px;background:var(--surface2);border-radius:3px;overflow:hidden}
+.bar .fl{height:100%;background:var(--ctx)}
+.bar .fl.hi{background:var(--blue)}
+.bar .v{font-weight:700;font-variant-numeric:tabular-nums;text-align:right}
+.bar .n{color:var(--muted);font-weight:500}
+.method{font-size:13px;color:var(--ink2);display:grid;gap:8px;max-width:78ch}
+.method p{margin:0}
+footer{border-top:1px solid var(--line);padding-block:20px 36px;color:var(--muted);font-size:12.5px}
+footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+/* compuertas de datos */
+.gate{position:relative}
+.gate[data-locked="true"]{min-height:560px}
+.gate[data-locked="true"] .gated{filter:blur(7px);opacity:.55;pointer-events:none;user-select:none}
+.gate[data-locked="false"] .lock{display:none}
+.gate .gated{transition:filter .4s ease,opacity .4s ease;display:grid;gap:20px}
+.lock{position:absolute;inset:0;z-index:2;display:flex;align-items:flex-start;justify-content:center;padding:28px 12px}
+.lockcard{background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:0 18px 50px rgba(31,36,51,.18);padding:22px;max-width:460px;width:100%;display:grid;gap:12px;position:sticky;top:90px}
+.lockcard h3{font-family:var(--display);font-size:24px;line-height:1.15;margin:0;text-wrap:balance}
+.lockcard p{margin:0;color:var(--ink2);font-size:14px}
+.teaser{background:var(--surface2);border-radius:8px;padding:10px 12px;font-size:14px;font-weight:600}
+.check{display:flex;gap:8px;align-items:flex-start;font-size:12.5px;color:var(--ink2)}
+.check input{width:auto;margin-top:3px}
+.err{color:var(--red);font-size:12.5px;font-weight:600;min-height:1em}
+.price{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--blue)}
+.owner{border:1px solid var(--line);border-radius:10px;overflow-x:auto;background:var(--surface)}
+.owner table{border-collapse:collapse;width:100%;font-size:13px;min-width:720px}
+.owner th,.owner td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
+.owner th{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<header class="top"><div class="wrap">
+  <a class="brand" href="#diagnostico">restaurantes<span>.ecuanomia.com</span></a>
+  <span class="pill">Beta</span>
+  <nav aria-label="Secciones"><a href="#diagnostico">Diagnóstico</a><a href="#proveedores">Proveedores</a><a href="#industria">La industria</a><a href="#metodo">Método</a></nav>
+</div></header>
+
+<main>
+<section class="wrap hero" id="diagnostico">
+  <span class="pill">Benchmark de restaurantes · Ecuador</span>
+  <h1>¿Tu restaurante gasta más de lo que debería?</h1>
+  <p>Ingresa tus números de un mes típico y compáralos con <b>821 restaurantes formales</b> que reportan a la Superintendencia de Compañías y con la estructura de costos que mide el INEC.</p>
+</section>
+
+<section class="wrap tool">
+  <form class="panel inputs" id="f" autocomplete="off">
+    <h2>Tus números del mes</h2>
+    <div class="example" id="exampleNote">Datos de ejemplo: un restaurante a la mesa en Guayaquil. Cámbialos por los tuyos.</div>
+    <div class="field"><label for="ventas">Ventas del mes</label><div class="money"><input id="ventas" type="number" min="0" step="100" value="35000" inputmode="decimal"></div></div>
+    <div class="field"><label for="comida">Compras de comida y bebidas</label><div class="money"><input id="comida" type="number" min="0" step="50" value="15400" inputmode="decimal"></div></div>
+    <div class="field"><label for="personal">Sueldos, beneficios e IESS</label><div class="money"><input id="personal" type="number" min="0" step="50" value="9100" inputmode="decimal"></div></div>
+    <div class="field"><label for="arriendo">Arriendo del local</label><div class="money"><input id="arriendo" type="number" min="0" step="50" value="3150" inputmode="decimal"></div><span class="hint">Pon 0 si el local es propio.</span></div>
+    <div class="field"><label for="servicios">Luz, agua, gas y mantenimiento</label><div class="money"><input id="servicios" type="number" min="0" step="50" value="1750" inputmode="decimal"></div></div>
+    <div class="field"><label for="otros">Otros gastos</label><div class="money"><input id="otros" type="number" min="0" step="50" value="4550" inputmode="decimal"></div><span class="hint">Apps de delivery, publicidad, contador, permisos, empaques.</span></div>
+    <div class="row2">
+      <div class="field"><label for="emp">Empleados</label><input id="emp" type="number" min="1" step="1" value="12" inputmode="numeric"></div>
+      <div class="field"><label for="tipo">Tipo</label><select id="tipo"><option value="mesa">A la mesa</option><option value="rapida">Comida rápida</option></select></div>
+    </div>
+    <div class="field"><label for="ciudad">Ciudad</label><select id="ciudad"><option value="gye">Guayaquil</option><option value="uio">Quito</option><option value="cue">Cuenca</option><option value="sam">Samborondón</option><option value="otra">Otra ciudad</option></select></div>
+    <p class="privacy">Tus números se calculan en tu navegador y no se guardan, salvo que decidas aportarlos de forma anónima.</p>
+  </form>
+
+  <div class="results">
+    <div class="panel summary" aria-live="polite">
+      <div><div class="k">Tu utilidad</div><div class="big" id="sUtil">—</div><div class="sub" id="sUtilSub"></div></div>
+      <div><div class="k">Restaurante típico</div><div class="big" id="sTip">1.3%</div><div class="sub">utilidad declarada antes de impuestos</div></div>
+      <div><div class="k">Ventas por empleado</div><div class="big" id="sVxe">—</div><div class="sub" id="sVxeSub"></div></div>
+    </div>
+
+    <div class="panel sec">
+      <div class="sec-head"><div><h2>Tu dólar de venta</h2><h3>A dónde se va cada dólar que vendes</h3></div></div>
+      <div class="dollar">
+        <div class="drow"><div class="lab">Tu restaurante</div><div class="stack" id="stackYou"></div></div>
+        <div class="drow"><div class="lab">Típico</div><div class="stack" id="stackTip"></div></div>
+      </div>
+      <div class="legend" id="legend"></div>
+      <div class="src">El típico combina la estructura de costos del INEC con la utilidad mediana de Supercias. En el típico, "Local" incluye arriendo, depreciación de equipos y gastos financieros.</div>
+    </div>
+
+    <div class="gate" id="gate1" data-locked="true">
+    <div class="lock"><form class="lockcard" id="lead1" novalidate>
+      <span class="price">Gratis a cambio de tus datos de contacto</span>
+      <h3>Tu diagnóstico completo está listo</h3>
+      <div class="teaser" id="teaser1">—</div>
+      <p>Déjanos tus datos para ver rubro por rubro dónde estás frente a otros restaurantes y cuánto podrías ahorrar.</p>
+      <div class="row2"><div class="field"><label for="lNombre">Tu nombre</label><input id="lNombre" type="text" autocomplete="name"></div>
+      <div class="field"><label for="lRest">Restaurante</label><input id="lRest" type="text"></div></div>
+      <div class="row2"><div class="field"><label for="lWa">WhatsApp</label><input id="lWa" type="tel" inputmode="tel" placeholder="09XXXXXXXX" autocomplete="tel"></div>
+      <div class="field"><label for="lMail">Correo</label><input id="lMail" type="email" inputmode="email" placeholder="tu@correo.com" autocomplete="email"></div></div>
+      <label class="check"><input type="checkbox" id="lShare"> Aportar mis números de forma anónima para mejorar el benchmark</label>
+      <label class="check"><input type="checkbox" id="lOk"> Acepto que Ecuanomía use estos datos para enviarme información y contactarme. Puedo pedir que los borren cuando quiera.</label>
+      <div class="err" id="lErr" role="alert"></div>
+      <button class="cta" type="submit">Ver mi diagnóstico</button>
+    </form></div>
+    <div class="gated">
+    <div class="panel sec">
+      <div class="sec-head">
+        <div><h2>Rubro por rubro</h2><h3>Dónde estás frente a otros restaurantes</h3></div>
+        <div class="seg" role="group" aria-label="Comparar contra" id="seg">
+          <button type="button" data-g="todos" aria-pressed="true">Todos</button>
+          <button type="button" data-g="tipo" aria-pressed="false">Mismo tipo</button>
+          <button type="button" data-g="city" aria-pressed="false">Misma ciudad</button>
+          <button type="button" data-g="tam" aria-pressed="false">Mismo tamaño</button>
+        </div>
+      </div>
+      <div id="metrics"></div>
+      <div class="legend"><span><i style="background:var(--band)"></i>90% de los restaurantes</span><span><i style="background:var(--bandIQ)"></i>la mitad central</span><span><i style="background:var(--ink);width:2px"></i>mediana</span><span><i style="background:var(--blue);border-radius:50%"></i>tú</span></div>
+    </div>
+
+    <div class="panel sec opp" id="oppBox">
+      <div><h2>Dinero sobre la mesa</h2></div>
+      <div class="big" id="oppAmt">—</div>
+      <p id="oppTxt"></p>
+    </div>
+    </div></div>
+  </div>
+</section>
+
+<section class="band" id="proveedores"><div class="wrap">
+  <span class="pill">Próximamente</span>
+  <h2 class="title">Encuentra proveedores que te ayuden a bajar costos</h2>
+  <p class="lead" id="provLead"></p>
+  <div class="gate" id="gate2" data-locked="true">
+  <div class="lock"><form class="lockcard" id="lead2" novalidate>
+    <span class="price">Para recibir cotizaciones</span>
+    <h3>Necesitamos tu WhatsApp y tu correo</h3>
+    <p>Los proveedores te contactan por estos medios. Solo los compartimos cuando tú pides una cotización.</p>
+    <div class="row2"><div class="field"><label for="pWa">WhatsApp</label><input id="pWa" type="tel" inputmode="tel" placeholder="09XXXXXXXX" autocomplete="tel"></div>
+    <div class="field"><label for="pMail">Correo</label><input id="pMail" type="email" inputmode="email" placeholder="tu@correo.com" autocomplete="email"></div></div>
+    <div class="field" id="pNameRow"><label for="pNombre">Tu nombre y restaurante</label><input id="pNombre" type="text" placeholder="Ana, Cevichería La Ola"></div>
+    <label class="check"><input type="checkbox" id="pOk"> Acepto que Ecuanomía use estos datos y los comparta con los proveedores a los que yo pida cotización.</label>
+    <div class="err" id="pErr" role="alert"></div>
+    <button class="cta" type="submit">Ver proveedores</button>
+  </form></div>
+  <div class="gated">
+  <div class="prov-grid" aria-label="Ejemplos de proveedores">
+    <div class="prov"><span class="pill">Ejemplo</span><div class="t">Distribuidora de cárnicos</div><div class="m">Pollo, res y cerdo · entrega 3 veces por semana · crédito a 30 días</div><div class="stars" aria-label="4.6 de 5">★★★★★ <span class="m">4.6 · 38 restaurantes</span></div></div>
+    <div class="prov"><span class="pill">Ejemplo</span><div class="t">Mayorista de abarrotes</div><div class="m">Arroz, aceite, granos y enlatados · pedido mínimo $300</div><div class="stars" aria-label="4.3 de 5">★★★★☆ <span class="m">4.3 · 52 restaurantes</span></div></div>
+    <div class="prov"><span class="pill">Ejemplo</span><div class="t">Compra agrupada de empaques</div><div class="m">Tarrinas y fundas biodegradables · precio por volumen de 40 restaurantes</div><div class="stars" aria-label="Nuevo">Nuevo</div></div>
+  </div>
+  <form class="panel" id="needForm" style="margin-top:16px;display:grid;gap:12px">
+    <div><h2 class="k" style="margin:0">Publica lo que necesitas y deja que los proveedores coticen</h2></div>
+    <div class="need">
+      <div class="field"><label for="nProd">Producto</label><input id="nProd" type="text" value="Pechuga de pollo"></div>
+      <div class="field"><label for="nQty">Cantidad por semana</label><input id="nQty" type="text" value="200 kg"></div>
+      <div class="field"><label for="nCity">Entrega en</label><input id="nCity" type="text" value="Guayaquil"></div>
+      <button class="cta" type="submit">Pedir cotizaciones</button>
+    </div>
+    <div class="notice" id="needMsg" hidden></div>
+  </form>
+  </div></div>
+</div></section>
+
+<section class="band" id="industria"><div class="wrap">
+  <span class="pill">La industria en datos</span>
+  <h2 class="title">Qué separa a los restaurantes que ganan de los que pierden</h2>
+  <p class="lead">Utilidad declarada antes de impuestos, mediana por grupo. Restaurantes y servicios de comida con ventas mayores a $100 mil en 2025.</p>
+  <div class="ind">
+    <div class="panel"><div class="k">Por tipo de negocio</div><div class="bars" id="bTipo"></div><p class="sub">Los comedores corporativos y el catering por contrato tienen clientes fijos y no dependen de un local a la calle.</p></div>
+    <div class="panel"><div class="k">Por tamaño (ventas al año)</div><div class="bars" id="bTam"></div><p class="sub">Los restaurantes pequeños declaran márgenes más bajos y casi un tercio reporta pérdidas.</p></div>
+    <div class="panel"><div class="k">Por ciudad</div><div class="bars" id="bCity"></div><p class="sub">Samborondón tiene la menor proporción de restaurantes con pérdidas.</p></div>
+  </div>
+</div></section>
+
+<section class="band" id="metodo"><div class="wrap">
+  <h2 class="title" style="font-size:24px">Cómo se calcula</h2>
+  <div class="method">
+    <p><b>Utilidad y ventas por empleado:</b> Superintendencia de Compañías, estados financieros 2025. 821 restaurantes (CIIU I5610) con ventas mayores a $100 mil. La utilidad es la que declaran las empresas, antes de participación de trabajadores e impuestos. Los márgenes declarados tienden a acumularse cerca de cero, así que la utilidad real puede ser mayor.</p>
+    <p><b>Comida, personal, arriendo y servicios:</b> INEC, Encuesta Estructural Empresarial 2024. 40 restaurantes medianos y grandes. El arriendo se compara solo contra restaurantes que pagan arriendo (29).</p>
+    <p><b>Limitaciones:</b> solo incluye sociedades. Los restaurantes de personas naturales no reportan a Supercias. Los grupos con menos de 70 restaurantes se muestran con su tamaño de muestra.</p>
+  </div>
+</div></section>
+</main>
+<footer><div class="wrap"><span>Fuente: Supercias, INEC, cálculos de Ecuanomía</span><span><a href="https://ecuanomia.com" target="_blank" rel="noopener" style="color:inherit">ecuanomia.com</a></span></div></footer>
+
+<script>
+const D={"Q": [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95], "supercias": {"todos": {"margen": {"n": 821, "q": [-20.32, -8.77, -3.61, -1.01, -0.11, 0.07, 0.34, 0.6, 1.01, 1.3, 1.6, 2.07, 2.62, 3.3, 3.98, 5.24, 6.77, 9.17, 13.91]}, "vxe": {"n": 821, "q": [15.21, 20.12, 23.1, 25.94, 28.09, 30.61, 33.37, 35.46, 39.26, 41.98, 46.81, 51.43, 57.41, 64.07, 72.94, 91.88, 126.39, 163.26, 293.77]}, "perdida": 26.9, "med_margen": 1.3}, "tipo_mesa": {"margen": {"n": 688, "q": [-18.64, -8.95, -4.03, -1.18, -0.15, 0.06, 0.31, 0.59, 1.01, 1.32, 1.68, 2.14, 2.68, 3.35, 3.99, 5.31, 6.77, 9.18, 13.86]}, "vxe": {"n": 688, "q": [14.71, 19.99, 22.85, 25.77, 28.13, 30.43, 33.07, 34.85, 38.59, 41.28, 45.24, 50.25, 55.97, 63.16, 70.91, 87.97, 125.3, 162.97, 280.3]}, "perdida": 27.8, "med_margen": 1.3}, "tipo_rapida": {"margen": {"n": 133, "q": [-22.43, -7.94, -2.31, -0.26, 0.04, 0.28, 0.52, 0.7, 1.0, 1.18, 1.45, 1.6, 2.1, 2.66, 3.77, 4.88, 6.64, 8.74, 13.14]}, "vxe": {"n": 133, "q": [17.13, 21.7, 25.03, 26.48, 28.09, 33.13, 37.15, 40.71, 44.85, 50.21, 56.41, 60.07, 63.51, 71.05, 83.4, 105.41, 127.99, 187.94, 346.09]}, "perdida": 22.6, "med_margen": 1.2}, "city_cue": {"margen": {"n": 79, "q": [-20.58, -12.56, -5.61, -2.01, -1.07, -0.26, -0.09, 0.24, 0.62, 1.25, 1.68, 2.22, 2.99, 3.56, 3.92, 5.88, 7.85, 10.26, 13.22]}, "vxe": {"n": 79, "q": [11.33, 13.47, 19.38, 21.85, 24.72, 25.62, 28.48, 30.44, 33.16, 34.96, 36.93, 39.75, 46.61, 58.94, 62.39, 67.71, 74.07, 96.46, 195.83]}, "perdida": 38.0, "med_margen": 1.3}, "city_gye": {"margen": {"n": 207, "q": [-12.76, -6.04, -2.81, -0.13, 0.06, 0.38, 0.76, 1.0, 1.35, 1.7, 2.18, 2.64, 3.38, 4.39, 5.28, 6.98, 8.8, 12.03, 15.87]}, "vxe": {"n": 207, "q": [18.18, 23.15, 25.68, 28.36, 31.48, 34.48, 38.74, 41.0, 44.45, 47.52, 51.58, 57.32, 64.02, 73.72, 100.06, 129.68, 161.97, 230.56, 376.47]}, "perdida": 21.7, "med_margen": 1.7}, "city_otra": {"margen": {"n": 154, "q": [-17.79, -8.08, -2.35, -0.37, 0.06, 0.32, 0.52, 0.94, 1.14, 1.43, 1.84, 2.26, 2.73, 3.43, 4.56, 5.93, 7.24, 9.29, 14.19]}, "vxe": {"n": 154, "q": [15.04, 19.66, 24.83, 26.84, 30.28, 32.06, 33.95, 38.63, 41.91, 45.58, 55.72, 58.63, 66.74, 75.05, 101.45, 126.57, 141.15, 167.47, 232.57]}, "perdida": 23.4, "med_margen": 1.4}, "city_sam": {"margen": {"n": 64, "q": [-0.29, 0.03, 0.14, 0.37, 1.01, 1.15, 1.43, 1.66, 2.11, 2.49, 3.29, 3.67, 3.95, 4.44, 5.81, 6.94, 9.11, 11.48, 12.86]}, "vxe": {"n": 64, "q": [20.68, 22.61, 26.12, 27.71, 29.18, 30.15, 33.24, 33.74, 38.56, 43.68, 46.9, 50.39, 53.39, 56.77, 66.02, 69.31, 84.97, 187.13, 437.32]}, "perdida": 6.2, "med_margen": 2.5}, "city_uio": {"margen": {"n": 317, "q": [-23.28, -14.38, -5.81, -3.28, -1.0, -0.15, 0.04, 0.28, 0.43, 0.7, 1.07, 1.4, 1.61, 2.21, 2.9, 3.64, 4.55, 6.05, 10.39]}, "vxe": {"n": 317, "q": [15.18, 19.83, 22.07, 25.11, 27.23, 29.63, 32.7, 33.99, 36.65, 40.23, 42.0, 47.56, 52.63, 57.95, 64.89, 78.08, 96.77, 128.19, 202.87]}, "perdida": 33.4, "med_margen": 0.7}, "tam_l": {"margen": {"n": 69, "q": [-0.9, -0.18, 0.36, 0.61, 1.03, 1.24, 1.56, 1.84, 2.42, 2.66, 3.18, 3.57, 3.78, 4.86, 6.35, 7.73, 8.8, 10.88, 12.02]}, "vxe": {"n": 69, "q": [29.87, 34.37, 35.56, 37.02, 38.71, 40.74, 41.55, 43.93, 48.48, 50.46, 57.12, 63.59, 66.04, 83.27, 142.03, 157.83, 224.57, 721.62, 1215.58]}, "perdida": 11.6, "med_margen": 2.7}, "tam_m": {"margen": {"n": 254, "q": [-7.45, -3.98, -1.5, -0.21, 0.11, 0.42, 0.62, 1.06, 1.27, 1.55, 1.74, 2.23, 2.6, 3.0, 3.75, 4.56, 6.17, 7.81, 9.89]}, "vxe": {"n": 254, "q": [23.21, 26.84, 29.77, 31.79, 33.43, 34.61, 36.94, 40.25, 42.66, 46.52, 50.75, 54.13, 58.33, 70.15, 91.77, 136.06, 178.41, 259.97, 368.34]}, "perdida": 22.4, "med_margen": 1.5}, "tam_s": {"margen": {"n": 498, "q": [-26.09, -15.34, -7.76, -3.17, -0.76, -0.04, 0.07, 0.31, 0.54, 0.94, 1.32, 1.62, 2.25, 3.0, 4.0, 5.11, 6.77, 10.26, 15.88]}, "vxe": {"n": 498, "q": [12.92, 17.06, 19.99, 22.05, 25.0, 26.54, 28.44, 31.37, 33.78, 37.99, 42.46, 47.45, 55.59, 62.25, 67.69, 76.87, 98.71, 124.46, 168.49]}, "perdida": 31.3, "med_margen": 0.9}}, "enesem": {"comida": {"n": 40, "q": [29.86, 32.63, 33.37, 35.57, 36.1, 36.87, 37.29, 37.63, 38.87, 40.1, 40.62, 41.64, 42.69, 43.43, 44.91, 45.86, 46.41, 48.03, 56.39]}, "personal": {"n": 40, "q": [11.33, 16.98, 19.58, 19.83, 20.65, 21.86, 22.92, 23.69, 23.87, 25.38, 27.39, 27.78, 28.84, 30.61, 31.97, 32.64, 33.83, 34.24, 38.42]}, "arriendo": {"n": 29, "q": [1.13, 1.93, 2.13, 2.95, 3.8, 4.45, 5.19, 5.53, 6.64, 7.1, 7.13, 7.45, 7.93, 9.23, 9.71, 10.74, 11.18, 12.41, 15.09]}, "servicios": {"n": 40, "q": [1.28, 2.78, 3.31, 3.38, 3.69, 3.83, 3.98, 4.16, 4.39, 4.59, 4.67, 4.82, 5.0, 5.08, 5.13, 5.26, 5.71, 5.86, 7.15]}}, "dist": {"gye": {"alimentos": 400}, "uio": {"alimentos": 187}, "cue": {"alimentos": 31}, "sam": {"alimentos": 58}, "otra": {"alimentos": 592}}, "otros": {"catering": {"n": 65, "margen": 4.1, "perdida": 20.0}, "comedores": {"n": 61, "margen": 4.6, "perdida": 9.8}, "rapida": {"n": 133, "margen": 1.2, "perdida": 22.6}, "mesa": {"n": 670, "margen": 1.3, "perdida": 28.1}}};
+const TIP={comida:40.1,personal:25.4,local:12,servicios:4.6,otros:16.6,util:1.3};
+const CAT=[['comida','Comida y bebidas','var(--red)'],['personal','Personal','#5E6A85'],['local','Local','#8F99AE'],['servicios','Servicios','#A88600'],['otros','Otros gastos','var(--ctx)'],['util','Utilidad','var(--green)']];
+const CITY={gye:'Guayaquil',uio:'Quito',cue:'Cuenca',sam:'Samborondón',otra:'otras ciudades'};
+const $=id=>document.getElementById(id);
+const fmt=(v,d=1)=>Number(v).toFixed(d);
+const usd=v=>'$'+Math.round(v).toLocaleString('en-US');
+let group='todos';
+const num=id=>{const v=parseFloat($(id).value);return isFinite(v)&&v>=0?v:0};
+
+function pctOf(q,v){const Q=D.Q;if(v<=q[0])return {p:Q[0],edge:'low'};if(v>=q[q.length-1])return {p:Q[Q.length-1],edge:'high'};
+  for(let i=1;i<q.length;i++){if(v<=q[i]){const t=q[i]===q[i-1]?0:(v-q[i-1])/(q[i]-q[i-1]);return {p:Q[i-1]+t*(Q[i]-Q[i-1])}}}}
+function verdict(p,higherBetter){const s=higherBetter?p:100-p; if(s>=60)return['good','Mejor que la mayoría']; if(s>=40)return['mid','En el promedio']; return['bad',higherBetter?'Por debajo':'Más alto que la mayoría']}
+function segKey(){const t=$('tipo').value,c=$('ciudad').value,a=num('ventas')*12,tam=a<5e5?'s':a<2e6?'m':'l';
+  if(group==='tipo')return['tipo_'+t,t==='mesa'?'restaurantes a la mesa':'comida rápida'];
+  if(group==='city')return['city_'+c,'restaurantes en '+CITY[c]];
+  if(group==='tam')return['tam_'+tam,{s:'restaurantes que venden menos de $500 mil al año',m:'restaurantes que venden $500 mil a $2 millones',l:'restaurantes que venden más de $2 millones'}[tam]];
+  return['todos','todos los restaurantes']}
+
+function strip(q,v,unit){const L=unit==='usd';const tf=t=>L?Math.log(Math.max(t,1)):t;
+  const lo=q[0],hi=q[q.length-1];let a=tf(lo),b=tf(hi);const pad=(b-a)*0.06;let min=Math.min(a-pad,tf(v)),max=Math.max(b+pad,tf(v));
+  const W=1000,x=t=>((tf(t)-min)/(max-min))*W;const med=q[9],p25=q[4],p75=q[14];
+  const lab=t=>L?'$'+Math.round(t)+'k':fmt(t,0)+'%';
+  return `<div style="position:relative"><svg viewBox="0 0 ${W} 40" preserveAspectRatio="none" aria-hidden="true">
+   <rect x="${x(lo)}" y="13" width="${x(hi)-x(lo)}" height="12" rx="3" fill="var(--band)"/>
+   <rect x="${x(p25)}" y="13" width="${x(p75)-x(p25)}" height="12" fill="var(--bandIQ)"/>
+   <rect x="${x(med)-2}" y="8" width="4" height="22" fill="var(--ink)"/>
+  </svg><span style="position:absolute;left:${x(v)/W*100}%;top:19px;width:16px;height:16px;margin:-8px 0 0 -8px;border-radius:50%;background:var(--blue);border:3px solid var(--surface);box-sizing:content-box;transform:translate(-3px,-3px)"></span></div>
+  <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums;margin-top:-4px"><span>${lab(lo)}</span><span>mediana ${lab(med)}</span><span>${lab(hi)}</span></div>`}
+
+function metricRow(name,valTxt,src,q,v,higherBetter,unit,n){
+  const r=pctOf(q,v);const [cls,txt]=verdict(r.p,higherBetter);
+  const pr=Math.round(r.p);let ptxt;
+  if(higherBetter) ptxt=r.edge==='high'?'Más alto que el 95% del grupo':r.edge==='low'?'Más bajo que el 95% del grupo':`Más alto que el ${pr}% del grupo`;
+  else ptxt=r.edge==='low'?'Más bajo que el 95% del grupo':r.edge==='high'?'Más alto que el 95% del grupo':`Más bajo que el ${100-pr}% del grupo`;
+  return `<div class="metric"><div><div class="name">${name}</div><div class="val">${valTxt}</div><div class="src">${src}${n?` · ${n} empresas`:''}</div></div>
+   <div class="strip">${strip(q,v,unit)}</div>
+   <div class="verdict"><span class="chip ${cls}">${txt}</span><span class="pct">${ptxt}</span></div></div>`}
+
+function render(){
+  const V=num('ventas')||1, c=num('comida'),p=num('personal'),a=num('arriendo'),s=num('servicios'),o=num('otros'),e=Math.max(1,num('emp'));
+  const util=V-c-p-a-s-o, um=util/V*100, vxe=V*12/e/1000;
+  const sh={comida:c/V*100,personal:p/V*100,local:a/V*100,servicios:s/V*100,otros:o/V*100,util:um};
+  const [k,glab]=segKey(); const S=D.supercias[k]||D.supercias.todos;
+  $('sUtil').textContent=fmt(um)+'%'; $('sUtil').style.color=um<0?'var(--red)':'var(--ink)';
+  $('sUtilSub').textContent=(util<0?'pérdida de ':'')+usd(Math.abs(util))+' al mes';
+  $('sTip').textContent=fmt(S.med_margen)+'%';
+  $('sVxe').textContent='$'+fmt(vxe,0)+'k'; $('sVxeSub').textContent='al año · típico $'+fmt(S.vxe.q[9],0)+'k';
+  // stacks
+  const stack=(vals)=>{const pos=CAT.map(([key,l,col])=>[key,l,col,Math.max(0,vals[key])]);const tot=pos.reduce((t,x)=>t+x[3],0)||1;
+    return pos.map(([key,l,col,v])=>`<div style="flex-basis:${v/tot*100}%;background:${col}" title="${l}: ${fmt(v)}%">${v/tot>=0.07?fmt(v,0)+'¢':''}</div>`).join('')};
+  $('stackYou').innerHTML=stack(sh); $('stackTip').innerHTML=stack(TIP);
+  $('legend').innerHTML=CAT.map(([k2,l,col])=>`<span><i style="background:${col}"></i>${l}</span>`).join('')+(um<0?'<span style="color:var(--red);font-weight:700">Tus gastos superan tus ventas</span>':'');
+  // metrics
+  const E=D.enesem; let h='';
+  h+=metricRow('Comida y bebidas',`<b>${fmt(sh.comida)}%</b> de tus ventas`,'INEC 2024',E.comida.q,sh.comida,false,'%',E.comida.n);
+  h+=metricRow('Personal',`<b>${fmt(sh.personal)}%</b> de tus ventas`,'INEC 2024',E.personal.q,sh.personal,false,'%',E.personal.n);
+  if(a>0) h+=metricRow('Arriendo',`<b>${fmt(sh.local)}%</b> de tus ventas`,'INEC 2024, restaurantes que arriendan',E.arriendo.q,sh.local,false,'%',E.arriendo.n);
+  h+=metricRow('Servicios y mantenimiento',`<b>${fmt(sh.servicios)}%</b> de tus ventas`,'INEC 2024',E.servicios.q,sh.servicios,false,'%',E.servicios.n);
+  h+=metricRow('Ventas por empleado',`<b>$${fmt(vxe,1)}k</b> al año`,'Supercias 2025, '+glab,S.vxe.q,vxe,true,'usd',S.vxe.n);
+  h+=metricRow('Utilidad',`<b>${fmt(um)}%</b> de tus ventas`,'Supercias 2025, utilidad declarada, '+glab,S.margen.q,um,true,'%',S.margen.n);
+  $('metrics').innerHTML=h;
+  // oportunidad
+  const gaps=[['comida','comida y bebidas',sh.comida-E.comida.q[9]],['personal','personal',sh.personal-E.personal.q[9]],['servicios','servicios y mantenimiento',sh.servicios-E.servicios.q[9]]];
+  if(a>0)gaps.push(['arriendo','arriendo',sh.local-E.arriendo.q[9]]);
+  gaps.sort((x,y)=>y[2]-x[2]); const g=gaps[0];
+  if(g[2]>0.3){const amt=g[2]/100*V*12;$('oppAmt').textContent=usd(amt)+' al año';
+    $('oppTxt').innerHTML=`Tu gasto en <b>${g[1]}</b> está ${fmt(g[2])} puntos por encima de la mediana. Si lo bajaras al nivel del restaurante típico, tu utilidad subiría de ${fmt(um)}% a ${fmt(um+g[2])}%.`+(g[0]==='comida'?' <a href="#proveedores">Mira cómo podrían ayudarte otros proveedores.</a>':'');}
+  else{$('oppAmt').textContent='Tus costos están en línea';$('oppTxt').textContent='Ningún rubro está claramente por encima de la mediana. El siguiente paso es crecer en ventas por empleado.'}
+  // proveedores
+  const ck=$('ciudad').value; const nd=(D.dist[ck]||D.dist.otra).alimentos;
+  $('provLead').innerHTML=`En ${CITY[ck]} hay <b>${nd.toLocaleString('en-US')} distribuidores mayoristas de alimentos y bebidas</b> registrados en Supercias. En la versión final podrás compararlos por precio, entrega y crédito, con calificaciones de otros restaurantes.`;
+  const above=gaps.filter(x=>x[2]>0.3).length;
+  $('teaser1').textContent=above>0?`Encontramos ${above} ${above===1?'rubro':'rubros'} donde gastas más que el restaurante típico, con un ahorro posible de $${'•'.repeat(String(Math.round((g[2]>0?g[2]:0)/100*V*12)).length)} al año.`:'Tus costos están cerca del típico. Mira en qué percentil está cada rubro.';
+  try{localStorage.setItem('rest-ecuanomia',JSON.stringify({group,lead:LEAD}))}catch(_){}
+}
+function bars(el,rows,hiKey){const max=Math.max(...rows.map(r=>r[1]));el.innerHTML=rows.map(([l,v,n,key])=>`<div class="bar"><span>${l}</span><div class="tr"><div class="fl ${key===hiKey?'hi':''}" style="width:${Math.max(2,v/max*100)}%"></div></div><span class="v">${fmt(v)}%</span></div><div class="src" style="margin:-6px 0 0 130px">${n} empresas · ${key&&D._p[key]!=null?D._p[key]+'% con pérdidas':''}</div>`).join('')}
+function industry(){const O=D.otros,S=D.supercias;D._p={com:O.comedores.perdida,cat:O.catering.perdida,rap:O.rapida.perdida,mesa:O.mesa.perdida,s:S.tam_s.perdida,m:S.tam_m.perdida,l:S.tam_l.perdida,sam:S.city_sam.perdida,gye:S.city_gye.perdida,cue:S.city_cue.perdida,uio:S.city_uio.perdida,otra:S.city_otra.perdida};
+  bars($('bTipo'),[['Comedores corporativos',O.comedores.margen,O.comedores.n,'com'],['Catering por contrato',O.catering.margen,O.catering.n,'cat'],['Restaurante a la mesa',O.mesa.margen,O.mesa.n,'mesa'],['Comida rápida',O.rapida.margen,O.rapida.n,'rap']],'com');
+  bars($('bTam'),[['Más de $2 millones',S.tam_l.med_margen,S.tam_l.margen.n,'l'],['$500 mil a $2 millones',S.tam_m.med_margen,S.tam_m.margen.n,'m'],['Menos de $500 mil',S.tam_s.med_margen,S.tam_s.margen.n,'s']],'l');
+  bars($('bCity'),[['Samborondón',S.city_sam.med_margen,S.city_sam.margen.n,'sam'],['Guayaquil',S.city_gye.med_margen,S.city_gye.margen.n,'gye'],['Otras ciudades',S.city_otra.med_margen,S.city_otra.margen.n,'otra'],['Cuenca',S.city_cue.med_margen,S.city_cue.margen.n,'cue'],['Quito',S.city_uio.med_margen,S.city_uio.margen.n,'uio']],'sam')}
+
+let LEAD={};
+try{const st=JSON.parse(localStorage.getItem('rest-ecuanomia')||'{}');if(st.group)group=st.group;if(st.lead)LEAD=st.lead}catch(_){}
+const okMail=v=>/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
+const okWa=v=>{const d=v.replace(/\D/g,'');return d.length>=9&&d.length<=13};
+function applyGates(){const g1=!!(LEAD.nombre&&(LEAD.email||LEAD.whatsapp));const g2=!!(LEAD.email&&LEAD.whatsapp);
+  $('gate1').dataset.locked=String(!g1);$('gate2').dataset.locked=String(!g2);
+  $('pWa').value=LEAD.whatsapp||'';$('pMail').value=LEAD.email||'';$('pNameRow').hidden=!!LEAD.nombre;$('pOk').checked=!!LEAD.consent;}
+let dbP=null,userP=null;
+// URL del Web App de Google Apps Script (ver README). Si está vacía, la app funciona pero no guarda contactos.
+const LEADS_URL='';
+async function saveLead(source){
+  if(!LEADS_URL){console.warn('LEADS_URL vacío: contacto no guardado');return false}
+  const V=num('ventas');
+  const body={fuente:source,nombre:LEAD.nombre||'',restaurante:LEAD.restaurante||'',whatsapp:LEAD.whatsapp||'',email:LEAD.email||'',
+    ciudad:$('ciudad').value,tipo:$('tipo').value,consentimiento:true,aportaNumeros:!!LEAD.share,
+    pedido:LEAD.pedido?`${LEAD.pedido.cantidad} de ${LEAD.pedido.producto} en ${LEAD.pedido.ciudad}`:'',
+    numeros:LEAD.share?{ventas:V,comida:num('comida'),personal:num('personal'),arriendo:num('arriendo'),servicios:num('servicios'),otros:num('otros'),empleados:num('emp')}:null,
+    pagina:location.href,fecha:new Date().toISOString()};
+  try{await fetch(LEADS_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(body)});return true}
+  catch(e){console.warn('lead no guardado',e);return false}}
+$('lead1').addEventListener('submit',async e=>{e.preventDefault();
+  const n=$('lNombre').value.trim(),r=$('lRest').value.trim(),w=$('lWa').value.trim(),m=$('lMail').value.trim();
+  let err='';
+  if(!n||!r)err='Escribe tu nombre y el de tu restaurante.';
+  else if(!w&&!m)err='Déjanos tu WhatsApp o tu correo.';
+  else if(w&&!okWa(w))err='Revisa tu WhatsApp: debe tener entre 9 y 13 dígitos.';
+  else if(m&&!okMail(m))err='Revisa tu correo.';
+  else if(!$('lOk').checked)err='Para continuar, acepta el uso de tus datos.';
+  $('lErr').textContent=err; if(err)return;
+  LEAD={...LEAD,nombre:n,restaurante:r,whatsapp:w||LEAD.whatsapp||'',email:m||LEAD.email||'',share:$('lShare').checked,consent:true,creado:LEAD.creado||new Date().toISOString(),fuentes:[...new Set([...(LEAD.fuentes||[]),'diagnostico'])]};
+  applyGates(); render(); saveLead('diagnostico');});
+$('lead2').addEventListener('submit',async e=>{e.preventDefault();
+  const w=$('pWa').value.trim(),m=$('pMail').value.trim(),nm=$('pNombre').value.trim();
+  let err='';
+  if(!okWa(w))err='Escribe un WhatsApp válido (entre 9 y 13 dígitos).';
+  else if(!okMail(m))err='Escribe un correo válido.';
+  else if(!LEAD.nombre&&!nm)err='Escribe tu nombre y el de tu restaurante.';
+  else if(!$('pOk').checked)err='Para continuar, acepta el uso de tus datos.';
+  $('pErr').textContent=err; if(err)return;
+  LEAD={...LEAD,whatsapp:w,email:m,consent:true,creado:LEAD.creado||new Date().toISOString(),fuentes:[...new Set([...(LEAD.fuentes||[]),'proveedores'])]};
+  if(!LEAD.nombre){const [a,...b]=nm.split(',');LEAD.nombre=a.trim();LEAD.restaurante=b.join(',').trim();}
+  applyGates(); render(); saveLead('proveedores');});
+$('needForm').addEventListener('submit',e=>{e.preventDefault();const m=$('needMsg');m.hidden=false;
+  LEAD.pedido={producto:$('nProd').value,cantidad:$('nQty').value,ciudad:$('nCity').value,fecha:new Date().toISOString()};saveLead('pedido');
+  m.textContent=`Recibimos tu pedido de ${$('nQty').value||'—'} de ${$('nProd').value||'producto'} por semana en ${$('nCity').value||'tu ciudad'}. Cuando abramos el directorio de proveedores en tu ciudad, te escribiremos a tu WhatsApp ${LEAD.whatsapp} con las primeras cotizaciones.`});
+industry(); applyGates(); render();
+// Altura para el iframe de Ghost
+function postH(){try{parent.postMessage({type:'ecuanomia-restaurantes-height',height:document.documentElement.scrollHeight},'*')}catch(_){}}
+new ResizeObserver(postH).observe(document.body); window.addEventListener('load',postH);
+</script>
+
+</body>
+</html>

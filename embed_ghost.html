@@ -1,0 +1,11 @@
+<!-- Pegar en una tarjeta HTML de Ghost -->
+<iframe id="ecuanomia-restaurantes" src="https://restaurantes.ecuanomia.com" title="Benchmark de restaurantes de Ecuanomía"
+  style="width:100%;border:0;min-height:1800px;display:block" loading="lazy"></iframe>
+<script>
+  window.addEventListener('message', function (e) {
+    if (e.origin !== 'https://restaurantes.ecuanomia.com') return;
+    if (e.data && e.data.type === 'ecuanomia-restaurantes-height') {
+      document.getElementById('ecuanomia-restaurantes').style.height = e.data.height + 'px';
+    }
+  });
+</script>
