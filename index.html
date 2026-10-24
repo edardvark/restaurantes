@@ -392,7 +392,7 @@ function applyGates(){const g1=!!(LEAD.nombre&&(LEAD.email||LEAD.whatsapp));cons
   $('pWa').value=LEAD.whatsapp||'';$('pMail').value=LEAD.email||'';$('pNameRow').hidden=!!LEAD.nombre;$('pOk').checked=!!LEAD.consent;}
 let dbP=null,userP=null;
 // URL del Web App de Google Apps Script (ver README). Si está vacía, la app funciona pero no guarda contactos.
-const LEADS_URL='';
+const LEADS_URL='https://script.google.com/macros/s/AKfycby9AUgD2XvUMo9L-iP1nnrOTBSiI4wrv4_JDTFNLzWqEa7bZW8sn2nNukt7Ks5FCHY37g/exec';
 async function saveLead(source){
   if(!LEADS_URL){console.warn('LEADS_URL vacío: contacto no guardado');return false}
   const V=num('ventas');
